@@ -1,2 +1,92 @@
-# -FUTURE_DS_01
- FUTURE_DS_01 is a repository designed for the projets I will be working on through FUTURE INTERNS's Intership
+Future Learn Task 1
+
+# Superstore Commercial Performance & Profitability Analysis (Power BI)
+
+Author: Kodjo Godwin BADA  
+Tools: Power BI Desktop, Power Query (M), DAX  
+Dataset:[Kaggle Superstore Sales Dataset] (https://www.kaggle.com/datasets/vivek468/superstore-dataset-final) (2014–2017)
+
+---
+
+## 1. Executive Overview
+
+This project analyzes four years of retail commercial performance across the United States (2014–2017) to identify revenue drivers, margin leaks, regional disparities, and product-level profitability. Designed as an interactive 4-page Power BI decision-support tool, the report enables stakeholders to move from high-level KPI tracking down to granular order-level auditing.
+
+### Headline Performance (2014–2017)
+Total Revenue: $11.48M (+45.4% YoY in latest period)
+Total Profit: $285.99K (+48.4% YoY in latest period)
+Overall Profit Margin: 2.49% (+2.1% YoY)
+Total Orders: ~5,000 distinct orders
+Average Order Value : $2.29K
+
+---
+
+## 2. Data Source, Preparation & Modeling
+
+### Data Ingestion & Cleaning (Power Query)
+* Source: Kaggle Superstore Sales Dataset (`9,990+` records across `20+` columns covering order details, customer segments, product hierarchies, geography, sales, discounts, and profit).
+
+* Deduplication & Null Handling: Audited primary keys to remove duplicate records and handled missing/null values (replacing numeric nulls with `0` to prevent aggregation distortion).
+* Data Type Normalization: Standardized regional formatting inconsistencies across `Order Date`, `Ship Date`, `Sales`, `Discount`, and `Profit` columns (converting text strings into proper `Date` and `Fixed Decimal` types).
+
+* Date Dimension Architecture: Built dedicated calendar tables (`OrderDate` and `ShipDate`) spanning `01/01/2014` to `31/12/2017` with chronological sorting keys (`Month Num`) to power accurate time-intelligence calculations.
+
+---
+
+## 3. Data Dictionary & Business Logic (DAX)
+
+All calculations are stored in a dedicated `_Measures` table using explicit DAX formulas:
+
+| Metric / Measure | Business Definition | DAX Logic |
+| :--- | :--- | :--- |
+| Total Revenue | Gross sales generated across all completed orders | `SUM ( Fact_Sales[Sales] )` |
+| Total Profit | Net profit after product costs and promotional discounts | `SUM ( Fact_Sales[Profit] )` |
+| Profit Margin % | Percentage of revenue retained as net profit | `DIVIDE ( [Total Profit], [Total Revenue], 0 )` |
+| Total Orders | Count of unique customer order IDs | `DISTINCTCOUNT ( Fact_Sales[Order ID] )` |
+| Average Order Value | Mean revenue generated per unique order | `DIVIDE ( [Total Revenue], [Total Orders], 0 )` |
+| Average Discount % | Mean promotional discount applied across transactions | `AVERAGE ( Fact_Sales[Discount] )` |
+| YoY Growth % | Year-over-year variance vs. prior period | `DIVIDE ( [Metric] - [Metric PY], [Metric PY], 0 )` |
+
+---
+
+## 4. Dashboard Architecture & Visual Walkthrough
+
+The report is organized into four interactive pages connected via custom page-navigation buttons and global slicers (Year, Region, Segment):
+
+1. Overview Analysis: Executive KPI cards with conditional YoY trend indicators, a dual-axis **Monthly Revenue & Profit Margin trend chart highlighting Q4 surges, Profit per Region breakdown, and Product Category volume comparison.
+
+2. Product & Margin Diagnostic: Side-by-side comparison of Top 10 Products by Revenue vs. Bottom 10 Loss-Making Products, paired with a Discount % vs. Profit Margin % scatter plot (with a 15% reference threshold) and embedded strategic takeaways.
+
+3. Top 10 Cities (Revenue vs. Profit): Dual-axis city comparison revealing high-revenue markets that generate negative net profit (such as Philadelphia at `-$5K` and Chicago at `-$5.78K` in 2017) alongside profitable hubs (New York City, Seattle, Los Angeles).
+
+4. Orders (Granular Audit Table): Interactive transaction-level table displaying `Order ID`, `Date`, `Product Name`, `Sub-Category`, `Customer Name`, `Segment`, `Region`, `Quantity`, and `Total Revenue` for operational drill-down.
+
+---
+
+## 5. Key Findings & Strategic Recommendations
+
+* High Revenue Does Not Guarantee Profitability: Top-selling items like the Cisco TelePresence System ($135.8K revenue) and Lexmark MX611dhe Printer ($93.3K revenue) simultaneously rank among the worst loss-makers (-$1.81K and -$4.59K).
+
+* Discounts Above 15% Severely Erode Margins: Sub-categories discounted below the 15% reference line maintain healthy margins (up to 10%), whereas discounts exceeding 20% consistently push segments into net losses.
+
+* Geographic Profit Leakage: While the West ($108.42K) and East ($91.50K) drive overall profit, major cities like Philadelphia and Chicago operate at a net loss despite high top-line sales volume.
+
+* Strategic Recommendations:
+  1. Enforce a 15% Discount Cap: Restrict promotional markdowns above 15% on high-ticket Technology and Furniture items without manager sign-off.
+
+  2. Audit Loss-Leading SKUs & Cities: Reprice or bundle top loss-leaders (Cubify CubeX 3D Printer at `-$8.88K`, Bookcases, and Tables) and review regional discounting policies in Philadelphia and Chicago.
+
+  3. Capitalize on Q4 Seasonality: Lock in inventory ahead of the September–December demand surge while running B2B retention campaigns in January–February to smooth Q1 dips.
+
+---
+
+## 6. Repository Structure
+
+```text
+├── Superstore_Commercial_Performance.pbix   # Interactive Power BI report file
+├── Superstore_Dashboard_Overview.pdf        # Exported static report
+├── assets/                                  # Dashboard screenshots & custom logo
+└── README.md                                # Project documentation 
+
+
+
