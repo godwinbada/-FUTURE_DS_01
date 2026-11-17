@@ -8,6 +8,20 @@ Dataset:[Kaggle Superstore Sales Dataset] (https://www.kaggle.com/datasets/vivek
 
 ---
 
+
+
+
+<img width="981" height="549" alt="Capture d&#39;écran 2026-11-17 115943" src="https://github.com/user-attachments/assets/a65e5868-0bfe-4c84-a16b-b45de370b86b" />
+
+<img width="1022" height="548" alt="Capture d&#39;écran 2026-11-17 120003" src="https://github.com/user-attachments/assets/28ce4324-5b0f-4faf-b797-db3d9ec9957d" />
+
+
+
+<img width="975" height="537" alt="Capture d&#39;écran 2026-11-17 120027" src="https://github.com/user-attachments/assets/f320c4ef-0d45-47da-a279-ea45189095c5" />
+
+<img width="978" height="544" alt="Capture d&#39;écran 2026-11-17 120053" src="https://github.com/user-attachments/assets/885bf4cf-f22e-4acb-a15c-4f38265eee91" />
+
+
 ## 1. Executive Overview
 
 This project analyzes four years of retail commercial performance across the United States (2014–2017) to identify revenue drivers, margin leaks, regional disparities, and product-level profitability. Designed as an interactive 4-page Power BI decision-support tool, the report enables stakeholders to move from high-level KPI tracking down to granular order-level auditing.
